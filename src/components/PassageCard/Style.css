@@ -1,0 +1,25 @@
+.passage-card {
+    background-color: rgba(255, 255, 255, 0.9); /* Slight translucence */
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    padding: var(--spacing-medium);
+    width: 100%; /* Ensure the card fills the grid cell */
+    max-width: 300px; /* Optional: Limit the maximum width of each card */
+    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Add hover effects */
+}
+
+.passage-card:hover {
+    transform: translateY(-5px); /* Lift the card slightly on hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Add a stronger shadow on hover */
+}
+
+.passage-card h3 {
+    font-size: var(--font-size-large);
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-small);
+}
+
+.passage-card p {
+    font-size: var(--font-size-base);
+    color: var(--primary-color);
+}

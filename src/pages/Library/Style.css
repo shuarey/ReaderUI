@@ -1,0 +1,129 @@
+.library {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    gap: 20px; 
+}
+
+.library {
+    padding: var(--spacing-medium);
+}
+
+.library-title {
+    font-size: var(--font-size-large);
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: var(--spacing-medium);
+}
+
+/* Tabs */
+.library-tabs {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-small);
+    margin-bottom: var(--spacing-medium);
+}
+
+.library-tab {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    border: 1px solid var(--accent-color);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-small) var(--spacing-medium);
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.library-tab.active {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+}
+
+.library-tab:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Search bar */
+.library-search {
+    position: relative; /* Position relative for the suggestions dropdown */
+    display: flex;
+    justify-content: center;
+    margin-bottom: var(--spacing-medium);
+}
+
+.library-search input {
+    width: 100%;
+    max-width: 400px;
+    padding: var(--spacing-small);
+    border: 1px solid var(--accent-color);
+    border-radius: var(--border-radius);
+    font-size: var(--font-size-base);
+}
+
+/* Suggestions dropdown */
+.search-suggestions {
+    position: absolute;
+    top: 100%; /* Position below the input field */
+    left: 0;
+    right: 0;
+    max-width: 400px;
+    margin: 0 auto;
+    background-color: var(--secondary-color);
+    border: 1px solid var(--accent-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    list-style: none;
+    padding: 0;
+    z-index: 10;
+    overflow: hidden;
+}
+
+.search-suggestion {
+    padding: var(--spacing-small);
+    cursor: pointer;
+    font-size: var(--font-size-base);
+    color: var(--primary-color);
+    transition: background-color 0.2s ease;
+}
+
+.search-suggestion:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Grid layout */
+.library-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid */
+    gap: var(--spacing-medium); /* Space between grid items */
+    padding: var(--spacing-medium); /* Add padding around the grid */
+    justify-items: center; /* Center items horizontally */
+    align-items: start; /* Align items to the top */
+    background-color: var(--secondary-color); /* Optional: Add a subtle background color */
+    border-radius: var(--border-radius); /* Optional: Add rounded corners to the grid container */
+    box-shadow: var(--box-shadow); /* Optional: Add a shadow to the grid container */
+}
+
+/* Empty state */
+.library-empty {
+    text-align: center;
+    font-size: var(--font-size-base);
+    color: var(--primary-color);
+    margin-top: var(--spacing-medium);
+}
+
+.clear-filters-button {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    border: 1px solid var(--accent-color);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-small) var(--spacing-medium);
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin-left: var(--spacing-small); /* Add spacing to the left of the button */
+}
+
+.clear-filters-button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    color: var(--primary-color);
+}

@@ -1,0 +1,40 @@
+.text-center {
+    text-align: center;
+}
+
+.text-bold {
+    font-weight: bold;
+}
+
+.mt-small {
+    margin-top: var(--spacing-small);
+}
+
+.mt-medium {
+    margin-top: var(--spacing-medium);
+}
+
+.p-small {
+    padding: var(--spacing-small);
+}
+
+.p-medium {
+    padding: var(--spacing-medium);
+}
+
+.flex {
+    display: flex;
+}
+
+.flex-center {
+    justify-content: center;
+    align-items: center;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.max-width {
+    max-width: 400px;
+}

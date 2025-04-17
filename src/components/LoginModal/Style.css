@@ -1,0 +1,71 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: var(--secondary-color);
+    padding: var(--spacing-medium);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    width: 100%;
+    max-width: 400px;
+}
+
+.form-group {
+    margin-bottom: var(--spacing-medium);
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: var(--spacing-small);
+    font-size: var(--font-size-base);
+}
+
+.form-group input[type="text"] {
+    width: calc(100% - 20px);
+    border: 1px solid var(--accent-color);
+    border-radius: var(--border-radius);
+    font-size: var(--font-size-base);
+}
+
+.error-message {
+    color: red;
+    font-size: var(--font-size-small);
+    margin-bottom: var(--spacing-small);
+}
+
+.submit-button,
+.close-button {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border: none;
+    border-radius: var(--border-radius);
+    padding: var(--spacing-small) var(--spacing-medium);
+    cursor: pointer;
+    font-size: var(--font-size-base);
+    margin-top: var(--spacing-small);
+    width: 100%;
+    text-align: center;
+}
+
+.submit-button:hover,
+.close-button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.register-link {
+    display: block;
+    margin-top: var(--spacing-medium);
+    text-align: center;
+    color: var(--accent-color);
+    text-decoration: none;
+}

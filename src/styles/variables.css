@@ -1,0 +1,16 @@
+:root {
+    --primary-color: #3d424b;
+    --secondary-color: #ffffff;
+    --accent-color: #ccc;
+    --card-color:  #ebdbbda4;
+    --card-hover-color:  #ebdbbd;
+    --font-family: 'Arial', sans-serif;
+    --font-size-base: 1rem;
+    --font-size-large: 1.5rem;
+    --font-size-small: 0.5rem;
+    --border-radius: 8px;
+    --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    --spacing-small: 10px;
+    --spacing-medium: 20px;
+    --spacing-large: 30px;
+}
