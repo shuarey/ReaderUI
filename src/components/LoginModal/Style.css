@@ -30,6 +30,7 @@
     font-size: var(--font-size-base);
 }
 
+.form-group input[type="password"],
 .form-group input[type="text"] {
     width: calc(100% - 20px);
     border: 1px solid var(--accent-color);

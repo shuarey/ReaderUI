@@ -1,27 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import LoginModal from '../LoginModal/Index'; 
+import { useLoginModal } from '../../context/loginContext';
 import './Style.css';
 
 const Layout = ({ children }) => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false); 
-    const [userName, setUserName] = useState(''); 
-    const [showModal, setShowModal] = useState(false);
+    const { isLoggedIn, userName, handleLoginClick } = useLoginModal();
 
-const handleLoginClick = () => {
-        setShowModal(true);
-    };
-
-    const handleCloseModal = () => {
-        setShowModal(false);
-    };
-
-    const handleLoginSuccess = (first_name, last_name) => {
-        setUserName(first_name + ' ' + last_name);
-        setIsLoggedIn(true);
-        setShowModal(false);
-    };
-    
 return (
         <div className="layout">
             <header className="layout-header">
@@ -37,14 +21,6 @@ return (
                     <button className="login-button" onClick={handleLoginClick}>
                         {isLoggedIn ? userName : 'Login'}
                     </button>
-                    {/* If user context returns an ID, this should point to an account link */}
-                    {/* Login Modal */}
-                    {showModal && (
-                        <LoginModal
-                            onClose={handleCloseModal}
-                            onLoginSuccess={handleLoginSuccess}
-                        />
-                    )}
                 </nav>
             </header>
             <main className="layout-content">{children}</main>

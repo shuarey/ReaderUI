@@ -2,15 +2,19 @@ import React, { useState } from 'react';
 import { useUser } from '../../context/userContext';
 import './Style.css';
 
-const LoginModal = ({ onClose, onLoginSuccess }) => {
+const LoginModal = ({ onClose, onLoginSuccess } = {}) => {
     const [isRegistering, setIsRegistering] = useState(false);
     const [email, setEmail] = useState("");
-    const [isValidEmail, setIsValidEmail] = useState(true);
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [first_name, setFirstName] = useState('');
-    const [last_name, setLastName] = useState('');
     const [error, setError] = useState('');
+
+    const handleClose = () => {
+        onClose();
+    };
+    const handleLoginSuccess = () => {
+        onLoginSuccess();
+    };
 
     const {setUserID} = useUser();
 
@@ -19,10 +23,9 @@ const LoginModal = ({ onClose, onLoginSuccess }) => {
 
         if (isRegistering) {
             // Registration form validation
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            setIsValidEmail(emailRegex.test(email));
+            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-            if ( !isValidEmail ) {
+            if (!emailRegex.test(email)) {
                 setError('Invalid email format');
                 return;
             }
@@ -33,14 +36,12 @@ const LoginModal = ({ onClose, onLoginSuccess }) => {
             }
 
             try {
-                const response = await fetch('http://localhost:50534/api/accountuser/register', {
+                const response = await fetch('https://api.versemark.me/accountuser/register', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        first_name,
-                        last_name,
                         email,
                         password,
                     }),
@@ -59,7 +60,7 @@ const LoginModal = ({ onClose, onLoginSuccess }) => {
         else {
             // Login form submission
             try {
-                const response = await fetch('http://localhost:50534/api/accountuser/login', {
+                const response = await fetch('https://api.versemark.me/accountuser/login', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -77,8 +78,7 @@ const LoginModal = ({ onClose, onLoginSuccess }) => {
                 const data = await response.json();
                 const { id, first_name, last_name } = data;
                 setUserID(id);
-
-                onLoginSuccess(first_name, last_name);
+                handleLoginSuccess();
             } catch (err) {
                 setError(err.message);
             }
@@ -90,47 +90,20 @@ const LoginModal = ({ onClose, onLoginSuccess }) => {
             <div className="modal-content">
                 <h2>{isRegistering ? 'Register' : 'Login'}</h2>
                 <form onSubmit={handleSubmit}>
-                    {isRegistering && (
-                        <>
-                            <div className="form-group">
-                                <label htmlFor="firstName">First Name</label>
-                                <input
-                                    type="text"
-                                    id="firstName"
-                                    value={first_name}
-                                    onChange={(e) => setFirstName(e.target.value)}
-                                    required
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="lastName">Last Name</label>
-                                <input
-                                    type="text"
-                                    id="lastName"
-                                    value={last_name}
-                                    onChange={(e) => setLastName(e.target.value)}
-                                    required
-                                />
-                            </div>
-                        </>
-                    )}
                     <div className="form-group">
                         <label htmlFor="email">Email</label>
                         <input
                             type="text"
                             id="email"
                             value={email}
-                            onChange={(e) => {
-                                setEmail(e.target.value);
-                                console.log(email);
-                            }}
+                            onChange={(e) => setEmail(e.target.value)}
                             required
                         />
                     </div>
                     <div className="form-group">
                         <label htmlFor="password">Password</label>
                         <input
-                            type="text"
+                            type="password"
                             id="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
@@ -141,7 +114,7 @@ const LoginModal = ({ onClose, onLoginSuccess }) => {
                         <div className="form-group">
                             <label htmlFor="confirmPassword">Confirm Password</label>
                             <input
-                                type="text"
+                                type="password"
                                 id="confirmPassword"
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
@@ -154,7 +127,7 @@ const LoginModal = ({ onClose, onLoginSuccess }) => {
                         {isRegistering ? 'Register' : 'Submit'}
                     </button>
                 </form>
-                <button className="close-button" onClick={onClose}>
+                <button className="close-button" onClick={handleClose}>
                     Close
                 </button>
                 <div className="register-link">
