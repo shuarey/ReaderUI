@@ -34,7 +34,7 @@ const LoginModal = ({ onClose, onLoginSuccess } = {}) => {
             // Registration form validation
             const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-            if (!regexConfig.test(email)) {
+            if (!emailRegex.test(email)) {
                 setError('Invalid email format');
                 return;
             }
