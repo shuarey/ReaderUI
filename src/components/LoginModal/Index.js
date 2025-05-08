@@ -9,7 +9,6 @@ const LoginModal = ({ onClose, onLoginSuccess } = {}) => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
     const urlPrefix = process.env.REACT_APP_API_URL;
-    const regexConfig = process.env.REACT_APP_EMAIL_REGEX;
 
     const handleClose = () => {
         onClose();
