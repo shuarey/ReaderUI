@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useUser } from '../../context/userContext';
 import './Style.css';
 
@@ -8,15 +8,25 @@ const LoginModal = ({ onClose, onLoginSuccess } = {}) => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
+    const urlPrefix = process.env.REACT_APP_API_URL;
+    const regexConfig = process.env.REACT_APP_EMAIL_REGEX;
 
     const handleClose = () => {
         onClose();
     };
-    const handleLoginSuccess = () => {
-        onLoginSuccess();
+    const handleLoginSuccess = (userName) => {
+        onLoginSuccess(userName);
     };
 
     const {setUserID} = useUser();
+
+    useEffect(() => {
+        const script = document.createElement('script');
+        script.src = 'https://www.google.com/recaptcha/api.js';
+        script.async = true;
+        script.defer = true;
+        document.body.appendChild(script);
+      }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -25,7 +35,7 @@ const LoginModal = ({ onClose, onLoginSuccess } = {}) => {
             // Registration form validation
             const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-            if (!emailRegex.test(email)) {
+            if (!regexConfig.test(email)) {
                 setError('Invalid email format');
                 return;
             }
@@ -36,7 +46,8 @@ const LoginModal = ({ onClose, onLoginSuccess } = {}) => {
             }
 
             try {
-                const response = await fetch('https://api.versemark.me/accountuser/register', {
+                const url = `${urlPrefix}`+'accountuser/register';
+                const response = await fetch(url, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -60,14 +71,15 @@ const LoginModal = ({ onClose, onLoginSuccess } = {}) => {
         else {
             // Login form submission
             try {
-                const response = await fetch('https://api.versemark.me/accountuser/login', {
+                const url = `${urlPrefix}accountuser/login`;
+                const response = await fetch(url, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
                         email,
-                        password,
+                        password
                     }),
                 });
 
@@ -76,9 +88,14 @@ const LoginModal = ({ onClose, onLoginSuccess } = {}) => {
                 }
 
                 const data = await response.json();
-                const { id, first_name, last_name } = data;
+                const { id, user_name } = data;
+                let userName = '';
+                if ( user_name )
+                    userName = `${user_name}`;
+                else
+                    userName = email;
                 setUserID(id);
-                handleLoginSuccess();
+                handleLoginSuccess(userName);
             } catch (err) {
                 setError(err.message);
             }
@@ -123,8 +140,11 @@ const LoginModal = ({ onClose, onLoginSuccess } = {}) => {
                         </div>
                     )}
                     {error && <p className="error-message">{error}</p>}
-                    <button type="submit" className="submit-button">
-                        {isRegistering ? 'Register' : 'Submit'}
+                    <button /* data-sitekey="6Lc71y4rAAAAAA2sw4hU7JI7Jpksu1Pg2p3uu-r4" */
+                            // data-callback='onSubmit' 
+                            // data-action='submit'
+                            type="submit" className="submit-button">
+                            {isRegistering ? 'Register' : 'Submit'}
                     </button>
                 </form>
                 <button className="close-button" onClick={handleClose}>

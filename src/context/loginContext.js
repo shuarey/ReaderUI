@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from 'react';
+import { createContext, useState, useContext } from 'react';
 import LoginModal from '../components/LoginModal/Index';
 
 const LoginContext = createContext();
@@ -6,7 +6,7 @@ const LoginContext = createContext();
 export const LoginProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [showModal, setShowModal] = useState(false);
-    const [userName, setUserName] = useState('');
+    const [userName, setUserName] = useState(null);
 
     const handleLoginClick = () => {
         setShowModal(true);
@@ -22,6 +22,11 @@ export const LoginProvider = ({ children }) => {
         setUserName(userName);
     };
 
+    const handleLogoutClick = () => {
+        setIsLoggedIn(false);
+        setUserName(null);
+    }
+
     return (
         <LoginContext.Provider
             value={{
@@ -31,6 +36,7 @@ export const LoginProvider = ({ children }) => {
                 handleLoginClick,
                 handleCloseModal,
                 handleLoginSuccess,
+                handleLogoutClick
             }}
         >
             {children}
@@ -44,4 +50,4 @@ export const LoginProvider = ({ children }) => {
     );
 };
 
-export const useLoginModal = () => useContext(LoginContext);
+export const useLoginContext = () => useContext(LoginContext);

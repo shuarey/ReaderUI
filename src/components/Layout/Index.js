@@ -1,11 +1,10 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { useLoginModal } from '../../context/loginContext';
+import UserMenu from '../UserMenu/Index';
 import './Style.css';
 
 const Layout = ({ children }) => {
     const { isLoggedIn, userName, handleLoginClick } = useLoginModal();
-
 return (
         <div className="layout">
             <header className="layout-header">
@@ -16,11 +15,17 @@ return (
                     <Link to="/home" className="layout-title-link">Versemark</Link>
                 </h1>
                 <nav className="layout-header-right">
-                    <Link to="/home" className="layout-nav-link">Home</Link>
-                    <Link to="/library" className="layout-nav-link">Library</Link>
-                    <button className="login-button" onClick={handleLoginClick}>
-                        {isLoggedIn ? userName : 'Login'}
-                    </button>
+                    {isLoggedIn ? (
+                        <div className="layout-header-right">
+                            <Link to="/home" className="layout-nav-link">Home</Link>
+                            <Link to="/library" className="layout-nav-link">Library</Link>
+                            <UserMenu />
+                        </div>
+                    ) : (
+                        <button className="login-button" onClick={handleLoginClick}>
+                            {isLoggedIn ? userName[0].toUpperCase ( ) : 'Login'}
+                        </button>
+                    )}
                 </nav>
             </header>
             <main className="layout-content">{children}</main>

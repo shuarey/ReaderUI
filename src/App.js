@@ -5,6 +5,8 @@ import Create from './pages/Create/Index';
 import Home from './pages/Home/Index';
 import './App.css';
 import Library from './pages/Library/Index';
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
+import UserProfile from './pages/UserProfile/Index';
 
 function App() {
   useEffect(() => {
@@ -18,6 +20,7 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/library" element={<Library />} /> 
             <Route path="/library/new" element={<Create />} /> 
+            <Route path="/user/:userID" element={<UserProfile />} />"
           </Routes>
         </Layout>
       </Router>
