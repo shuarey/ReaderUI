@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 import { useUser } from '../../context/userContext';
 import Card from '../../components/CardBase/Index'; 
-import { useLoginModal } from '../../context/loginContext';
+import { useLoginContext } from '../../context/loginContext';
 import './Style.css'; 
 
 const Home = () => {
     const { userID } = useUser();
-    const { isLoggedIn, userName, handleLoginClick } = useLoginModal();
+    const { isLoggedIn, userName, handleLoginClick } = useLoginContext();
 
     return (
         <div className="home">

@@ -12,6 +12,7 @@ function UserMenu() {
     const handleToggleClick = () => {
         setDropdownOpen(!dropdownOpen);
     };
+
     const handleLogoutClick = () => {
         setIsLoggedIn(false);
         setUserName(null);

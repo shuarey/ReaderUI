@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
-import { useLoginModal } from '../../context/loginContext';
+import { useLoginContext } from '../../context/loginContext';
 import UserMenu from '../UserMenu/Index';
 import './Style.css';
 
 const Layout = ({ children }) => {
-    const { isLoggedIn, userName, handleLoginClick } = useLoginModal();
+    const { isLoggedIn, userName, handleLoginClick } = useLoginContext();
 return (
         <div className="layout">
             <header className="layout-header">
