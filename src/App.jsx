@@ -1,12 +1,11 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Layout from './components/Layout/Index';
+import Layout from './components/Layout';
 import Create from './pages/Create/Index';
 import Home from './pages/Home/Index';
-import './App.css';
 import Library from './pages/Library/Index';
-import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
-import UserProfile from './pages/UserProfile/Index';
+import UserProfile from './pages/UserProfile';
+import './App.css';
 
 function App() {
   useEffect(() => {

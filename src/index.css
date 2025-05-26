@@ -1,3 +1,4 @@
+@import "tailwindcss";
 @import './styles/variables.css';
 @import './styles/utilities.css';
 body {
@@ -12,4 +13,17 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+@theme {
+  --color-primary: #3d424b;
+  --color-accent: #ccc;
+  --color-card: #ebdbbda4;
+  --card-hover-color: #ebdbbd;
+  --font-family: 'Arial', sans-serif;
+  --font-size-base: 1rem;
+  --font-size-large: 1.5rem;
+  --font-size-small: 0.5rem;
+  --border-radius: 8px;
+  --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }

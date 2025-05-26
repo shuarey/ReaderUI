@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { useUser } from '../../context/userContext';
-import './Style.css';
+import { useState, useEffect } from 'react';
+import { useUser } from '../context/userContext';
 
 const UserProfile = () => {
-    const urlPrefix = process.env.REACT_APP_API_URL;
+    const urlPrefix = import.meta.env.VITE_API_URL;
     const { userID } = useUser();
 
     const [userData, setUserData] = useState(null);
@@ -27,19 +26,14 @@ const UserProfile = () => {
     }, []);
 
 return (
+  <div className="flex flex-col items-center max-w-sm rounded-2xl shadow-xl p-6 border-0 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow duration-300">
     <div>
-      <h1>User Profile</h1>
-        {userData ? (
-            <div>
-                <p><strong>First Name:</strong> {userData.first_name}</p>
-                <p><strong>Last Name:</strong> {userData.last_name}</p>
-                <p><strong>Email:</strong> {userData.email}</p>
-            </div>
-        ) : (
-            <p>Loading user data...</p>
-        )}
-      <p>This is the user profile page.</p>
+      <h3 className="text-xl font-semibold text-gray-900 dark:text-white">{userData.first_name} {userData.last_name}</h3>
+      <div className="mt-4 flex justify-center space-x-4">
+        <a href="#" className="text-blue-500 hover:text-blue-600">{userData.email}</a>
+      </div>
     </div>
+  </div>
   );
 };
 

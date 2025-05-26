@@ -1,22 +1,40 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useUser } from '../../context/userContext';
+import { useErrorContext } from '../../context/errorContext';
+import { DynamicIcon } from '../DynamicIcon';
 import './Style.css';
 
 const LoginModal = ({ onClose, onLoginSuccess } = {}) => {
     const [isRegistering, setIsRegistering] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [error, setError] = useState('');
-    const urlPrefix = process.env.REACT_APP_API_URL;
+    const urlPrefix = import.meta.env.VITE_API_URL;
 
+    const handleError = (error) => {
+        setErrorText(error);
+        setShowModal(true);
+    }
     const handleClose = () => {
         onClose();
     };
     const handleLoginSuccess = (userName) => {
         onLoginSuccess(userName);
     };
+    const handleShowPassword = () => {
+        setShowPassword(!showPassword);
+    };
 
+    const handleFormToggle = (isRegistering) => {
+        setEmail('');
+        setPassword('');
+        setShowPassword(false);
+        setConfirmPassword('');
+        setIsRegistering(isRegistering);
+    }
+
+    const { setErrorText, setShowModal } = useErrorContext();
     const {setUserID} = useUser();
 
     useEffect(() => {
@@ -35,12 +53,12 @@ const LoginModal = ({ onClose, onLoginSuccess } = {}) => {
             const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
             if (!emailRegex.test(email)) {
-                setError('Invalid email format');
+                handleError('Invalid email format');
                 return;
             }
 
             if (password !== confirmPassword) {
-                setError('Passwords do not match');
+                handleError('Passwords do not match');
                 return;
             }
 
@@ -58,17 +76,17 @@ const LoginModal = ({ onClose, onLoginSuccess } = {}) => {
                 });
 
                 if (!response.ok) {
-                    throw new Error('Registration failed');
+                    handleError('Registration failed');
+                    return;
                 }
 
-                setError('');
                 setIsRegistering(false);
             } catch (err) {
-                setError(err.message);
+                console.log(err.message);
+                handleError();
             }
         } 
         else {
-            // Login form submission
             try {
                 const url = `${urlPrefix}accountuser/login`;
                 const response = await fetch(url, {
@@ -83,7 +101,8 @@ const LoginModal = ({ onClose, onLoginSuccess } = {}) => {
                 });
 
                 if (!response.ok) {
-                    throw new Error('Invalid username or password');
+                    handleError('Invalid username or password');
+                    return;
                 }
 
                 const data = await response.json();
@@ -96,72 +115,89 @@ const LoginModal = ({ onClose, onLoginSuccess } = {}) => {
                 setUserID(id);
                 handleLoginSuccess(userName);
             } catch (err) {
-                setError(err.message);
+                console.log(err.message);
+                handleError();
             }
         }
     };
 
     return (
-        <div className="modal-overlay">
-            <div className="modal-content">
-                <h2>{isRegistering ? 'Register' : 'Login'}</h2>
-                <form onSubmit={handleSubmit}>
-                    <div className="form-group">
-                        <label htmlFor="email">Email</label>
+        <div className="fixed top-0 left-0 w-full h-full bg-black/70 flex justify-center items-center">
+            <div className="bg-white px-7 py-6 rounded-lg shadow-lg w-full max-w-[350px]">
+                <div className="flex justify-between">
+                    <h2 className='text-2xl py-2'>{isRegistering ? 'Register' : 'Log In'}</h2>
+                    <button className='cursor-pointer' 
+                            onClick={handleClose}>
+                            <DynamicIcon icon="XCircleIcon" className='w-6 h-6 text-primary hover:text-primary/70' outline='false' />
+                    </button>
+                </div>
+                <div className="border-t bg-black/50"></div>
+                <form className='py-2 mb-1'>
+                    <div>
+                        <input type="hidden" value="prayer" />
+                    </div>
+                    <div className='flex mb-2 justify-between w-full bg-gray-200/60 rounded-lg'>
                         <input
                             type="text"
                             id="email"
+                            className="py-2.5 ps-2 pe-2 w-full max-h-10 outline-none"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
+                            placeholder='Email Address'
+                            autoComplete='off'
                         />
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="password">Password</label>
-                        <input
-                            type="password"
-                            id="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
-                    </div>
+                        <div className='flex mb-2 justify-between w-full bg-gray-200/60 rounded-lg'>
+                            <input 
+                                id="password" 
+                                type={showPassword ? 'text' : 'password'}
+                                className="py-2.5 ps-2 pe-2 w-full max-h-10 outline-none" 
+                                placeholder="Password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                                autoComplete='current-password'
+                            />
+                            <button onClick={handleShowPassword}>
+                                <DynamicIcon icon="EyeIcon" className='w-6 h-5 text-black/90 hover:text-black/70 pe-2' outline='false' />
+                            </button>
+                        </div>
                     {isRegistering && (
-                        <div className="form-group">
-                            <label htmlFor="confirmPassword">Confirm Password</label>
-                            <input
-                                type="password"
-                                id="confirmPassword"
+                        <div className='flex mb-2 justify-between w-full bg-gray-200/60 rounded-lg'>
+                            <input 
+                                id="confirmPassword" 
+                                type={showPassword ? 'text' : 'password'}
+                                className="py-2.5 ps-2 pe-2 w-full max-h-10 outline-none" 
+                                placeholder="Confirm password"
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                                 required
                             />
                         </div>
                     )}
-                    {error && <p className="error-message">{error}</p>}
                     <button /* data-sitekey="6Lc71y4rAAAAAA2sw4hU7JI7Jpksu1Pg2p3uu-r4" */
                             // data-callback='onSubmit' 
                             // data-action='submit'
-                            type="submit" className="submit-button">
+                            className='py-2 p-2 block bg-primary hover:bg-primary/70 cursor-pointer text-white rounded-lg w-full h-full'
+                            onClick={handleSubmit}>
                             {isRegistering ? 'Register' : 'Submit'}
                     </button>
                 </form>
-                <button className="close-button" onClick={handleClose}>
-                    Close
-                </button>
-                <div className="register-link">
+                <div className="border-b border-black/70"></div>
+                <div className='text-[9px] justify-items-center py-2'>
                     <h2>
                         {isRegistering ? (
                             <>
                                 Already have an account?{' '}
-                                <a href="#" onClick={() => setIsRegistering(false)}>
+                                <a className='text-blue-500' href="#" onClick={() => handleFormToggle(false)}>
                                     Login here
                                 </a>
                             </>
                         ) : (
                             <>
                                 Don't have an account?{' '}
-                                <a href="#" onClick={() => setIsRegistering(true)}>
+                                <a className='text-blue-500' href="#" onClick={ () => handleFormToggle(true)}>
                                     Register here
                                 </a>
                             </>

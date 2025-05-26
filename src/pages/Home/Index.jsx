@@ -13,9 +13,9 @@ const Home = () => {
             {( !userID ) && (
                 <div className="default-home">
                     <h1>Welcome to VerseMark!</h1>
-                    <button className="login-button" onClick={handleLoginClick}>
-                            {isLoggedIn ? userName : 'Login or Register'}
-                    </button>
+                    <li>Create custom Bible reading plans</li>
+                    <li>Add custom notes or links to relevant content</li>
+                    <li>Share with your Bible study group</li>
                 </div>
             )}
             {( userID ) && (
