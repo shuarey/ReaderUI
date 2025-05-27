@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useLoginContext } from '../context/loginContext';
-import UserMenu from './UserMenu/Index';
+import UserMenu from './UserMenu';
 import { BookmarkIcon } from './BookmarkIcon';
 
 const Layout = ({ children }) => {

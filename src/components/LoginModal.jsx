@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
-import { useUser } from '../../context/userContext';
-import { useErrorContext } from '../../context/errorContext';
-import { DynamicIcon } from '../DynamicIcon';
-import './Style.css';
+import { useUser } from '../context/userContext';
+import { useErrorContext } from '../context/errorContext';
+import { DynamicIcon } from './DynamicIcon';
 
 const LoginModal = ({ onClose, onLoginSuccess } = {}) => {
     const [isRegistering, setIsRegistering] = useState(false);
@@ -22,7 +21,8 @@ const LoginModal = ({ onClose, onLoginSuccess } = {}) => {
     const handleLoginSuccess = (userName) => {
         onLoginSuccess(userName);
     };
-    const handleShowPassword = () => {
+    const handleShowPassword = (e) => {
+        e.preventDefault();
         setShowPassword(!showPassword);
     };
 

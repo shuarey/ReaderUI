@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useUser } from '../../context/userContext';
-import { useLoginContext } from '../../context/loginContext';
-import './Style.css';
+import { useUser } from '../context/userContext';
+import { useLoginContext } from '../context/loginContext';
 
 function UserMenu() {
     const { userID } = useUser();

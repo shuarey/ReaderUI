@@ -1,5 +1,5 @@
 import { createContext, useState, useContext } from 'react';
-import LoginModal from '../components/LoginModal/Index';
+import LoginModal from '../components/LoginModal';
 
 const LoginContext = createContext();
 
